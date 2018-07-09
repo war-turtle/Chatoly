@@ -3,17 +3,20 @@
 
 <head>
 
-    <title>Footballkik</title>
+    <title>
+        <%= title %>
+    </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/login.css">
 
 </head>
 
 <body>
-
     <div class="container logo-container">
         <div class="row">
             <div class="col-md-12">
@@ -44,15 +47,6 @@
                                 </h2>
 
                             </li>
-
-
-                            <li class="reg_link2">
-                                <h2 class="reg-div">
-                                    <a href="/signup">
-                                        Register
-                                    </a>
-                                </h2>
-                            </li>
                         </ul>
                     </div>
 
@@ -65,34 +59,48 @@
     <div id="main">
         <div class="main">
             <form action="/signup" method="post">
+                <h1>
+                    <a href="/auth/google" class="btn-social btn-gplus btn-lg">
+                        <i class="fa fa-google-plus"></i> Sign Up With Google
+                    </a>
+                </h1>
 
                 <h1>
                     Register
                 </h1>
+                <% if(hasError) {%>
+                    <div class="alert alert-danger text-center">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <% _.forEach(messages, function(error){ %>
+                            <%= error %>
+                                <br>
+                                <% }) %>
 
-                <div class="inset">
-                    <p>
-                        <label for="username">USERNAME</label>
-                        <input type="text" name="username" class="" placeholder="">
-                    </p>
+                    </div>
+                    <% } %>
+                        <div class="inset">
+                            <p>
+                                <label for="username">USERNAME</label>
+                                <input type="text" name="username" class="" placeholder="">
+                            </p>
 
-                    <p>
-                        <label for="email">EMAIL ADDRESS</label>
-                        <input type="text" name="email" placeholder="" />
-                    </p>
-                    <p>
-                        <label for="password">PASSWORD</label>
-                        <input type="password" name="password" placeholder="" />
-                    </p>
+                            <p>
+                                <label for="email">EMAIL ADDRESS</label>
+                                <input type="text" name="email" placeholder="" />
+                            </p>
+                            <p>
+                                <label for="password">PASSWORD</label>
+                                <input type="password" name="password" placeholder="" />
+                            </p>
 
-                </div>
+                        </div>
 
-                <p class="p-container">
-                    <span>
-                        <a href="/">Login</a>
-                    </span>
-                    <input type="submit" class="login-log" style=" background: #3bb5ec; border: #3bb5ec;" value="Register">
-                </p>
+                        <p class="p-container">
+                            <span>
+                                <a href="/">Login</a>
+                            </span>
+                            <input type="submit" class="login-log" style=" background: #3bb5ec; border: #3bb5ec;" value="Register">
+                        </p>
             </form>
         </div>
     </div>

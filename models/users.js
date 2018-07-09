@@ -7,10 +7,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, default: '' },
   userImage: { type: String, default: 'defaultPic.png' },
   email: { type: String, unique: true },
-  facebook: { type: String, default: '' },
-  facebookToken: Array,
-  google: { type: String, default: '' },
-  googleToken: Array
+  google: { type: String, default: '' }
 });
 
 userSchema.methods.encryptPassword = function encryptPassword(password) {

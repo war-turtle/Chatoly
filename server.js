@@ -9,9 +9,11 @@ const mongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const passport = require('passport');
-const keys = require('./config/keys');
-require('./config/passport-local');
+const _ = require('lodash');
 
+require('./config/passport-local');
+require('./config/passport-google');
+const keys = require('./config/keys');
 const router = require('./routes/users');
 
 //setting up mongodb connection
@@ -48,6 +50,9 @@ app.use(passport.session());
 
 //setting up the routes
 app.use(router);
+
+//setting global variable
+app.locals._ = _;
 
 server.listen('3000', () => {
   console.log('listen at port 3000');
