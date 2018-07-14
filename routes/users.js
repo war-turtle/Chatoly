@@ -23,10 +23,6 @@ router.get('/signup', (req, res) => {
   });
 });
 
-router.get('/home', (req, res) => {
-  res.render('home');
-});
-
 router.get(
   '/auth/google',
   passport.authenticate('google', {

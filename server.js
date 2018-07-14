@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const ejs = require('ejs');
 const http = require('http');
 const validator = require('express-validator');
 const cookieParser = require('cookie-parser');
@@ -14,7 +13,9 @@ const _ = require('lodash');
 require('./config/passport-local');
 require('./config/passport-google');
 const keys = require('./config/keys');
-const router = require('./routes/users');
+const userRoutes = require('./routes/users');
+const adminRoutes = require('./routes/admin');
+const homeRoutes = require('./routes/home');
 
 //setting up mongodb connection
 mongoose.connect(
@@ -49,7 +50,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //setting up the routes
-app.use(router);
+app.use(userRoutes);
+app.use(adminRoutes);
+app.use(homeRoutes);
 
 //setting global variable
 app.locals._ = _;
