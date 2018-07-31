@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const http = require('http');
 const validator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -9,6 +8,7 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const passport = require('passport');
 const _ = require('lodash');
+const socketIO = require('socket.io');
 
 require('./config/passport-local');
 require('./config/passport-google');
@@ -16,6 +16,9 @@ const keys = require('./config/keys');
 const userRoutes = require('./routes/users');
 const adminRoutes = require('./routes/admin');
 const homeRoutes = require('./routes/home');
+const groupRoutes = require('./routes/groups');
+
+let { Users } = require('./socket/onlineUsers');
 
 //setting up mongodb connection
 mongoose.connect(
@@ -26,9 +29,13 @@ mongoose.connect(
     '@ds131601.mlab.com:31601/chatoly'
 );
 
-const app = express();
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-const server = http.createServer(app);
+//setting up server side socket.io
+require('./socket/groupChat')(io, Users);
+require('./socket/friendRequest')(io);
 
 //setting up the middlewares
 app.set('view engine', 'ejs');
@@ -53,10 +60,12 @@ app.use(passport.session());
 app.use(userRoutes);
 app.use(adminRoutes);
 app.use(homeRoutes);
+app.use('/group', groupRoutes);
 
 //setting global variable
 app.locals._ = _;
 
+// starting the server
 server.listen('3000', () => {
   console.log('listen at port 3000');
 });
