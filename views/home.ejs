@@ -14,8 +14,11 @@
 <body>
     <%- include partials/navbar.ejs %>
 
+        <input type="hidden" id="name-user" value="<%= user.username %>">
+        <input type="hidden" id="name-image" value="<%= user.userImage %>">
+
         <div class="col-md-12">
-            <form action="#" method="post">
+            <form action="/results" method="post">
                 <div class="form-group ad-30" style="margin-top:8px;">
                     <div class="input-group search-style">
                         <input class="form-control new-search-bar" name="country" id="search" placeholder="Enter Your Club Name" type="text">
@@ -35,7 +38,7 @@
                             <div class="col-md-12">
                                 <div class="filter-container">
                                     <div class="card">
-                                        <form action="#" method="post">
+                                        <form action="/results" method="post" id="favorite">
                                             <div class="content">
                                                 <p class="filter">
                                                     FILTER
@@ -66,12 +69,13 @@
                                     <% _.forEach(chunks, function(val){ %>
                                         <form action="#" method="post" id="add-fav">
                                             <div class="item col-md-4">
-                                                <a style="text-decoration: none;" href="/group/<%= val.name %>">
+                                                <a style="text-decoration: none;" href="/group/<%= val.name.replace(/ /g, '-') %>">
                                                     <div class="thumbnail">
                                                         <img alt="">
                                                         <div class="caption">
                                                             <h4>
-                                                                <%= val.name %>
+                                                                <%= val.name %> (
+                                                                    <%= val.user.length %>)
                                                             </h4>
 
                                                             <div class="row">
@@ -82,6 +86,8 @@
                                                                 </div>
 
                                                                 <div class="col-xs-12 col-md-6">
+                                                                    <input type="hidden" id="id" name="id" value="<%= val._id %>">
+                                                                    <input type="hidden" id="club_name" name="clubName" value="<%= val.name %>">
                                                                     <button class="btn add-fav">
                                                                         Add To Favorite
                                                                     </button>
@@ -109,6 +115,8 @@
             crossorigin="anonymous"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/js/group/sentRequest.js"></script>
+        <script src="/js/home.js"></script>
+        <script src="/js/global.js"></script>
 </body>
 
 </html>

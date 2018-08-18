@@ -6,13 +6,11 @@ module.exports = function(io) {
       callback();
     });
 
-    socket.on("friendRequest", (friend, callback) => {
+    socket.on("friendRequest", friend => {
       io.to(friend.receiver).emit("newFriendRequest", {
         from: friend.sender,
         to: friend.receiver
       });
-
-      callback();
     });
   });
 };

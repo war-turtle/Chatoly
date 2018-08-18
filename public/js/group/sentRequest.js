@@ -9,9 +9,7 @@ $("document").ready(function() {
       sender: sender
     };
 
-    socket.emit("joinRequest", params, function() {
-      console.log("Joined");
-    });
+    socket.emit("joinRequest", params, function() {});
   });
 
   socket.on("newFriendRequest", function(friend) {
@@ -70,16 +68,10 @@ $("document").ready(function() {
         receiver: receiverName
       },
       success: function() {
-        socket.emit(
-          "friendRequest",
-          {
-            receiver: receiverName,
-            sender: sender
-          },
-          function() {
-            console.log("friendRequest sent");
-          }
-        );
+        socket.emit("friendRequest", {
+          receiver: receiverName,
+          sender: sender
+        });
       }
     });
   });
@@ -97,11 +89,7 @@ $("document").ready(function() {
         senderId: senderId,
         senderName: senderName
       },
-      success: function() {
-        // $("#reload").load(location.href + " #reload");
-        console.log($(this));
-        $(this).remove();
-      }
+      success: function() {}
     });
   });
 });

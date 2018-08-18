@@ -54,4 +54,33 @@ routes.get("/home", (req, res) => {
   );
 });
 
+routes.post("/home", (req, res) => {
+  async.parallel(
+    [
+      function(callback) {
+        Group.update(
+          {
+            _id: req.body.id,
+            "user.username": { $ne: req.user.username }
+          },
+          {
+            $push: {
+              user: {
+                username: req.user.username,
+                email: req.user.email
+              }
+            }
+          },
+          (err, count) => {
+            callback(err, count);
+          }
+        );
+      }
+    ],
+    (err, result) => {
+      res.redirect("/home");
+    }
+  );
+});
+
 module.exports = routes;

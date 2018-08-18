@@ -19,7 +19,6 @@ router.get("/:name", (req, res) => {
     ],
     (err, results) => {
       let result1 = results[0];
-      console.log(result1);
 
       res.render("groupChat/group", {
         title: "Chatoly - Group",
@@ -90,7 +89,7 @@ router.post("/:name", (req, res) => {
           User.update(
             {
               _id: req.user._id,
-              "friendsList.friendId": req.body.senderId
+              "friendsList.friendId": { $ne: req.body.senderId }
             },
             {
               $push: {
@@ -118,7 +117,7 @@ router.post("/:name", (req, res) => {
           User.update(
             {
               _id: req.body.senderId,
-              "friendsList.friendId": req.user._id
+              "friendsList.friendId": { $ne: req.user._id }
             },
             {
               $push: {
@@ -129,7 +128,7 @@ router.post("/:name", (req, res) => {
               },
               $pull: {
                 sentRequest: {
-                  username: req.user._id
+                  username: req.user.username
                 }
               }
             },
@@ -141,9 +140,6 @@ router.post("/:name", (req, res) => {
       }
     ],
     (err, results) => {
-      if (err) {
-        console.log("errors are present");
-      }
       res.redirect("/group/" + req.params.name);
     }
   );
